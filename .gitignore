@@ -1,0 +1,6 @@
+# Ignore IDEA generated files
+.idea
+*.iml
+
+# Inoger all node modules
+node_modules
