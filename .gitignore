@@ -2,5 +2,11 @@
 .idea
 *.iml
 
-# Inoger all node modules
+# Ignore all node modules
 node_modules
+
+# Ignore cache files/directories
+.DS_Store
+
+# Ignore USE YARN!!!!
+package-lock.json

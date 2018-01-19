@@ -1,10 +1,14 @@
 {
-  "name": "security-headers",
+  "name": "ahead",
   "version": "1.0.0",
   "description": "Command line tool to scan security header. Aims to be a CLI equivalent to securityheaders.io",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest --coverage",
+    "lint": "eslint --color --ext .jsx,.js,.spec.jsx src",
+    "lint:fix": "eslint --color --ext .jsx,.js,.spec.jsx src --fix",
+    "precommit": "lint-staged",
+    "prepush": "jest"
   },
   "repository": {
     "type": "git",
@@ -17,6 +21,9 @@
     "testing",
     "tool"
   ],
+  "bin": {
+    "ahead": "./src/index.js"
+  },
   "author": "Matt Rosenquist <mrosenquist@and.digital>",
   "license": "MPL-2.0",
   "bugs": {
@@ -24,9 +31,59 @@
   },
   "homepage": "https://github.com/ANDigital/security-headers#readme",
   "dependencies": {
-    "commander": "^2.13.0"
+    "chalk": "^2.3.0",
+    "commander": "^2.13.0",
+    "lodash.intersection": "^4.4.0",
+    "node-fetch": "^1.7.3"
   },
   "devDependencies": {
-    "jest": "^22.0.6"
+    "eslint": "^4.15.0",
+    "eslint-config-airbnb-base": "^12.1.0",
+    "eslint-plugin-import": "^2.8.0",
+    "eslint-plugin-jsx-a11y": "^6.0.3",
+    "husky": "^0.14.3",
+    "jest": "^22.1.4",
+    "lint-staged": "^6.0.1"
+  },
+  "jest": {
+    "globals": {},
+    "verbose": true,
+    "cacheDirectory": "./node_modules/.cache/jest",
+    "collectCoverageFrom": [
+      "**/*.{js,jsx}",
+      "!{node_modules,coverage,stubs,build}/**"
+    ],
+    "coverageThreshold": {
+      "global": {
+        "branches": 80,
+        "functions": 80,
+        "lines": 80,
+        "statements": 80
+      },
+      "./src/**/*.js": {
+        "statements": 60,
+        "branches": 60
+      }
+    },
+    "coverageDirectory": "coverage",
+    "testPathIgnorePatterns": [
+      "/node_modules/"
+    ],
+    "coverageReporters": [
+      "html",
+      "text"
+    ],
+    "moduleDirectories": [
+      "<rootDir>/src",
+      "node_modules"
+    ]
+  },
+  "lint-staged": {
+    "*.{js,jsx}": "eslint"
+  },
+  "greenkeeper": {
+    "ignore": [
+      "eslint-plugin-jsx-a11y"
+    ]
   }
 }
