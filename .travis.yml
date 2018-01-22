@@ -7,9 +7,17 @@ node_js:
   - "node"
 install:
   - yarn install --pure-lockfile
+addons:
+  sonarcloud:
+    organization: "sonarcloud_organization_key"
+    token:
+      secure: "UoAzq11bYJHoI9jmkpTZKvq/w50PxUIkWXUPHG0Ans+y9yQoshw7pAcIuQlG1Zf25pXSIv4/hJrV+LAqHdjkuSHaO/KFT4f3GPNjt5sK55viaRcG8CICV0F6ItaBO3KaTLWObhyP9gGwzravwWS1aISwZFYoG6Y2qbPhwsSo46H7QoPwnUFr/ofNPtzjzqzrzGwPfUm4vLyAjLuHMs8HYmCZq/2zIqcYzdHZHsEf9jZKh0qB4T/3ByuuSdBUfoU3XIvx/vJZkHPyDPLPoHjqECxyBZykavpDDi8tHSCi0qWTr6ShmVh5HvYqN2t1yLVpiRYIDRwJqf1LOg94ZQpC+CnS1/aP3cLALCg68oq7PPs9251+G6kfdO3IKFshkLRYTHRaxF+WJ+sXODzya7mt0Zjxz/5RWt1oe06saAYskmlLxk7q7RTQWD4TO207QxQgZVVq6ZSZVT60svnPPeMB0H3BloCKe+tNmDU1TwEyFmtnUFllCmoLr9yNMjVjPkYKw4penSA4sNaeQq1msBupsWo5GgpEuBodI05zWknuQXa646Xdmh9iuvwnyxY6Zj/6DXs+oB2KG2MpKrqNH6lTAPtaW/sZ4XvndAH8no+yu7K77IUsTk1CriOaKzP/nqk3ZCRoUmHSHoZ01fY/yu6RC2wKwZ6R7HZ+xEesfZcdVU4="
+    branches:
+      - master
 script:
-  - yarn test
   - yarn lint
+  - yarn test
+  - sonar-scanner
 cache:
   yarn: true
   directories:
