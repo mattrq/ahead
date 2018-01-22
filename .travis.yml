@@ -12,5 +12,5 @@ script:
   - yarn lint
 cache:
   yarn: true
-    directories:
-      - "node_modules"
+  directories:
+    - "node_modules"
