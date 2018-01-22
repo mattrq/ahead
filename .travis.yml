@@ -5,3 +5,10 @@ node_js:
   - "8"
   - "9"
   - "node"
+script:
+  - yarn test
+  - yarn lint
+cache:
+  yarn: true
+    directories:
+      - "node_modules"
