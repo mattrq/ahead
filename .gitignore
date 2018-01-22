@@ -10,3 +10,8 @@ node_modules
 
 # Ignore USE YARN!!!!
 package-lock.json
+
+
+# Gerated files
+dist
+coverage
