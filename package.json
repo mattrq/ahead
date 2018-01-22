@@ -34,21 +34,20 @@
     "./dist/*"
   ],
   "homepage": "https://github.com/ANDigital/security-headers#readme",
-  "depenendecies": {},
-  "devDependencies": {
+  "depenendecies": {
     "chalk": "^2.3.0",
     "commander": "^2.13.0",
+    "lodash.intersection": "^4.4.0",
+    "node-fetch": "^1.7.3"
+  },
+  "devDependencies": {
     "eslint": "^4.16.0",
     "eslint-config-airbnb-base": "^12.1.0",
     "eslint-plugin-import": "^2.8.0",
     "eslint-plugin-jest": "^21.7.0",
-    "eslint-plugin-jsx-a11y": "^6.0.3",
     "husky": "^0.14.3",
     "jest": "^22.1.4",
-    "lint-staged": "^6.0.1",
-    "lodash.intersection": "^4.4.0",
-    "node-fetch": "^1.7.3",
-    "regenerator-runtime": "^0.11.1"
+    "lint-staged": "^6.0.1"
   },
   "jest": {
     "verbose": true,

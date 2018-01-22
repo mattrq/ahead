@@ -15,3 +15,4 @@ package-lock.json
 # Gerated files
 dist
 coverage
+yarn-error.log
