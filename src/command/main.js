@@ -1,50 +1,64 @@
 'use strict';
 
+/* eslint no-console:off */
+
 const program = require('commander');
 const chalk = require('chalk');
 const { processor } = require('../processor/index');
+const configs = require('../config');
+const { URL } = require('url');
+
+const error = (msg, secondary = '') => {
+  console.error(chalk.red.bold(`\n  ${msg}\n`));
+  if (secondary) {
+    console.error(chalk.red(`  ${secondary}`));
+  }
+  program.help();
+  process.exit(1);
+};
 
 module.exports = (process) => {
-  const urlRegex = /^((https?):\/\/(([0-9a-z\\.]+)(:\d+)?(\/|#|\?|$)))/i;
-  const config = {};
-
-  /* eslint no-console:off */
+  let actionApplied = false;
 
   program
     .version('0.1.0')
     .arguments('<url>', 'URl must be a valid url starting with "http://" or "https://"')
-    .option('-g --grade <Grade>', 'Minumum Grade', /^(A+|[A-G])$/i, 'B')
-    .option('-t --timeout <Timeout>', 'Minumum Grade', parseInt, 5)
-
-    // .option('-o, --option', 'option description', )
-    // .option('-m, --more', 'we can have as many options as we want')
-    // .option('-i, --input [optional]', 'optional user input')
-    // .option('-I, --another-input <required>', 'required user input')
+    .option('-g --grade <Grade>', 'Minimum Grade', /^(A+|[A-G])$/i)
+    .option('-t --timeout <Timeout>', 'Minimum Grade', parseInt, 5)
+    .option('-s --ruleset <Ruleset>', 'Rules set', 'default')
     .action((url) => {
-      if (!urlRegex.test(url)) {
-        console.error(chalk.red.bold('\n  URL given is not in correct format.\n'));
-        console.error(chalk.red('  E.g. http://localhost:8080/, https://127.0.0.1'));
-        program.help();
-        process.exit(1);
+      const config = configs[program.ruleset];
+      try {
+        config.url = new URL(url);
+        if (!/https?/.test(config.url.protocol)) {
+          error(
+            'URL given is not in correct format, must be either HTTP or HTTPS.',
+            'E.g. http://localhost:8080/, https://127.0.0.1' // eslint-disable-line comma-dangle
+          );
+        }
+      } catch (e) {
+        error(
+          'URL given is not in correct format, must be either HTTP or HTTPS.',
+          'E.g. http://localhost:8080/, https://127.0.0.1' // eslint-disable-line comma-dangle
+        );
       }
-      [config.uri, config.secure, config.partialUri, config.domain] = url.match(urlRegex).slice(1);
 
-      config.secure = config.secure.toLowerCase() === 'https';
+      config.secure = config.url.protocol === 'https';
       config.timeout = program.timeout;
-      config.grade = program.grade;
+
+      if (program.grade) {
+        config.requiredGrade = program.grade.toUpperCase();
+      }
+      config.ruleset = program.ruleset;
+
+      actionApplied = true;
+
+      processor(config)
+        .catch(err => error(err.message));
     })
     .parse(process.argv); // end with parse to parse through the input
 
-  if (!config.uri) {
-    console.error(chalk.red.bold('\n  No url given!'));
-    program.help();
-    process.exit(1);
+  if (!actionApplied) {
+    error('No url given!');
   }
-
-  processor(config)
-    .catch((error) => {
-      console.error(chalk.red(`  ${error.message}`));
-      program.help();
-      process.exit(1);
-    });
 };

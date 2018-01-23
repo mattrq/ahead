@@ -1,6 +1,6 @@
 {
-  "extends": "airbnb-base",
-  "plugins": ["jest"],
+  "extends": ["airbnb-base", "plugin:security/recommended"],
+  "plugins": ["jest", "security"],
   "parserOptions": {
     "ecmaVersion": 6,
     "sourceType": "script",

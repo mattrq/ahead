@@ -17,6 +17,7 @@ addons:
 script:
   - yarn lint
   - yarn test
+  - yarn test:security
   - sonar-scanner
 cache:
   yarn: true

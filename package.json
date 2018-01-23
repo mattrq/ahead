@@ -4,6 +4,7 @@
   "description": "Command line tool to scan security header. Aims to be a CLI equivalent to securityheaders.io",
   "main": "./dist/index.js",
   "scripts": {
+    "test:security": "nsp check --reporter summary",
     "test": "jest --coverage",
     "test:no-coverage": "jest",
     "lint": "eslint --color --ext .jsx,.js,.spec.jsx src",
@@ -45,9 +46,11 @@
     "eslint-config-airbnb-base": "^12.1.0",
     "eslint-plugin-import": "^2.8.0",
     "eslint-plugin-jest": "^21.7.0",
+    "eslint-plugin-security": "^1.4.0",
     "husky": "^0.14.3",
     "jest": "^22.1.4",
-    "lint-staged": "^6.0.1"
+    "lint-staged": "^6.0.1",
+    "nsp": "^3.1.0"
   },
   "jest": {
     "verbose": true,

@@ -19,6 +19,15 @@ The ideas and default rules set
  * [Scott Helem - Scoring for secuirtyheaders.id](https://scotthelme.co.uk/scoring-transparency-on-securityheaders-io/)
  * [Scott Helem - Articals for secuirtyheaders.id](https://scotthelme.co.uk/tag/securityheaders-io/)
  
-Implementation for a rule bases node cil test tool have been borrow from eslint:
+Implementation for a rule bases node cil test tool have been borrowed from eslint:
  * [ESLint](https://eslint.org/)
  * [ESLint - Github](https://github.com/eslint/eslint)
+ 
+ 
+## Todo / Ideas:
+ * Make config extensible
+ * CSP check for 'unsafe'
+ * HSTS check for 'max < 1year'
+ * HSTS check preload
+ * HSTS check for subdomain
+ * Examples of using tool with express and supertest

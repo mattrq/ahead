@@ -2,7 +2,7 @@
 
 const constants = require('../constants');
 
-module.export = {
+module.exports = {
   rules: {
     csp: constants.LEVEL_WARN,
     xfo: constants.LEVEL_WARN,
@@ -11,7 +11,5 @@ module.export = {
     sts: constants.LEVEL_WARN,
     pkp: constants.LEVEL_OFF,
   },
-  config: {
-    requiredGrade: 'B',
-  },
+  requiredGrade: 'B',
 };

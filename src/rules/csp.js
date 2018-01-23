@@ -12,6 +12,6 @@ module.exports = {
       'content-security-policy',
       'content-security-policy-report-only',
     ];
-    return Promise.resolve(intersection(headers, receivedHeaders).length > 0);
+    return Promise.resolve(intersection(headers, Object.keys(receivedHeaders)).length > 0);
   },
 };
