@@ -14,8 +14,9 @@
 const fetch = require('node-fetch');
 const chalk = require('chalk');
 const intersection = require('lodash.intersection');
-const { grades } = require('../config');
+const grades = require('../config/grades');
 const rules = require('../rules');
+const constants = require('../constants');
 
 const hasFailed = (points, minGrade) => {
   const matchingGrade = grades.filter(grade => grade.name === minGrade.toUpperCase()).pop();
@@ -27,6 +28,26 @@ const hasFailed = (points, minGrade) => {
 
 const getGrade = points =>
   (grades.filter(grade => (points >= grade.points || grade.points === 0)).shift());
+
+const getApplicableRules = (config, secure) => {
+  return rules.filter((rule) => {
+    if (!rule.name || typeof rule.handle === 'function' || !rule.appliesTo) {
+      return false;
+    }
+
+    if (
+      rule.appliesTo !== constants.HTTP_HTTPS &&
+      (rule.appliesTo !== (secure ? constants.HTTP_ONLY : constants.HTTPS_ONLY))
+    ) {
+      return false;
+    }
+
+    return (
+      rule.name in config.rules &&
+      config.rules[rule.name] !== constants.LEVEL_OFF
+    );
+  });
+};
 
 const processor = (config) => {
   const options = {
@@ -40,26 +61,42 @@ const processor = (config) => {
   };
 
   let points = 0;
+  const messages = [];
   return fetch(config.uri, options)
     .then(res => res.headers.raw())
     .then((headers) => {
-      const receivedHeaders = Object.keys(headers).map(header => header.toLowerCase());
-      Object.keys(rules)
-        .filter(key => (!rules[key].httpsOnly || config.secure === rules[key].httpsOnly))
-        .forEach((key) => {
-          const rule = rules[key];
+      return Promise.all(getApplicableRules(config, config.secure)
+        .map(rule => rule.handle(headers, config)
+          .then((result) => {
+            if (result === true) {
+              points += rule.points;
+            } else {
 
-          rule.headers = rule.headers.map(header => header.toLowerCase());
-          if (intersection(rule.headers, receivedHeaders).length > 0) {
-            points += rule.points;
+            }
+          }),
+        ))
+        .then((results) => {
+          const grade = getGrade(points);
+          console.log(chalk.keyword(grade.colour).bold(`\n   Site got a grade of ${grade.name}\n`));
+          if (hasFailed(points, config.grade)) {
+            process.exit(1);
           }
         });
 
-      const grade = getGrade(points);
-      console.log(chalk.keyword(grade.colour).bold(`\n   Site got a grade of ${grade.name}\n`));
-      if (hasFailed(points, config.grade)) {
-        process.exit(1);
-      }
+
+      //const receivedHeaders = Object.keys(headers).map(header => header.toLowerCase());
+      // Object.keys(rules)
+      //   .filter(key => (!rules[key].httpsOnly || config.secure === rules[key].httpsOnly))
+      //   .forEach((key) => {
+      //     const rule = rules[key];
+      //
+      //     rule.headers = rule.headers.map(header => header.toLowerCase());
+      //     if (intersection(rule.headers, receivedHeaders).length > 0) {
+      //       points += rule.points;
+      //     }
+      //   });
+
+
     })
     .catch((error) => {
       if (error.name === 'FetchError') {
