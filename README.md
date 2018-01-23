@@ -1,4 +1,6 @@
 # AHead
+
+[![Greenkeeper badge](https://badges.greenkeeper.io/mrosenquist/ahead.svg)](https://greenkeeper.io/)
 Command line tool to scan security header. Aims to be a CLI equivalent to securityheaders.io
 
 
