@@ -61,7 +61,8 @@
     "testEnvironment": "node",
     "coverageReporters": [
       "html",
-      "text"
+      "text",
+      "lcov"
     ],
     "moduleDirectories": [
       "<rootDir>/src",
