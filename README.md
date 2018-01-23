@@ -7,7 +7,8 @@
 [![SonarCloud Coverage](https://sonarcloud.io/api/badges/measure?key=ahead&metric=coverage)](https://sonarcloud.io/component_measures/metric/coverage/list?id=ahead)
 [![SonarCloud Bugs](https://sonarcloud.io/api/badges/measure?key=ahead&metric=bugs)](https://sonarcloud.io/component_measures/metric/reliability_rating/list?id=ahead)
 [![SonarCloud Vulnerabilities](https://sonarcloud.io/api/badges/measure?key=ahead&metric=vulnerabilities)](https://sonarcloud.io/component_measures/metric/security_rating/list?id=ahead)
-
+[![Code smells](https://sonarcloud.io/api/badges/measure?key=ahead&metric=code_smells)](https://sonarcloud.io/component_measures?id=ahead&metric=code_smells)
+[![Technical debt](https://sonarcloud.io/api/badges/measure?key=ahead&metric=sqale_index)](https://sonarcloud.io/component_measures?id=ahead&metric=sqale_index)
 
 Command line tool to scan security header. Aims to be a CLI equivalent to securityheaders.io
 
