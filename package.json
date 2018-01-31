@@ -77,7 +77,8 @@
     "cacheDirectory": "./node_modules/.cache/jest",
     "collectCoverageFrom": [
       "src/**/*.{js,jsx}",
-      "!{node_modules,coverage,dist}/**"
+      "!{node_modules,coverage,dist}/**",
+      "!src/index.js"
     ],
     "coverageThreshold": {
       "global": {
