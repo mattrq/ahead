@@ -2,7 +2,6 @@
 
 module.exports = {
   LEVEL_OFF: 'off',
-  LEVEL_INFO: 'info',
   LEVEL_WARN: 'warn',
   LEVEL_ERROR: 'error',
   // GET_HEADER: 'headers',

@@ -4,7 +4,7 @@ const intersection = require('lodash.intersection');
 const constants = require('../constants');
 
 module.exports = {
-  name: 'csp',
+  ruleId: 'csp',
   appliesTo: constants.HTTP_HTTPS,
   points: 25,
   handle: (receivedHeaders) => {

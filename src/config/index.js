@@ -1,9 +1,9 @@
 'use strict';
 
-const defaultConfig = require('./default');
-const secure = require('./secure');
+const securityheaders = require('./securityheaders');
+const strict = require('./strict');
 
 module.exports = {
-  default: defaultConfig,
-  secure,
+  strict,
+  securityheaders,
 };

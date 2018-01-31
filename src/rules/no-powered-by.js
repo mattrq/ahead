@@ -3,11 +3,10 @@
 const constants = require('../constants');
 
 module.exports = {
-  ruleId: 'xfo',
+  ruleId: 'no-powered-by',
   appliesTo: constants.HTTP_HTTPS,
-  points: 20,
   handle: (receivedHeaders) => {
-    const header = 'x-frame-options';
-    return Promise.resolve(header in receivedHeaders);
+    const header = 'x-powered-by';
+    return Promise.resolve(!(header in receivedHeaders));
   },
 };

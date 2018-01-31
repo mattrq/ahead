@@ -3,7 +3,7 @@
 const constants = require('../constants');
 
 module.exports = {
-  name: 'sts',
+  ruleId: 'sts',
   appliesTo: constants.HTTPS_ONLY,
   points: 25,
   handle: (receivedHeaders) => {

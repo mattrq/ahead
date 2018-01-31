@@ -10,6 +10,7 @@ module.exports = {
     xxssp: constants.LEVEL_WARN,
     sts: constants.LEVEL_WARN,
     pkp: constants.LEVEL_OFF,
+    'no-powered-by': constants.LEVEL_WARN,
   },
   requiredGrade: 'B',
 };

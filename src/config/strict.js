@@ -9,7 +9,8 @@ module.exports = {
     xcto: constants.LEVEL_ERROR,
     xxssp: constants.LEVEL_ERROR,
     sts: constants.LEVEL_ERROR,
-    pkp: constants.LEVEL_INFO,
+    pkp: constants.LEVEL_OFF,
+    'no-powered-by': constants.LEVEL_ERROR,
   },
   requiredGrade: null,
 };
