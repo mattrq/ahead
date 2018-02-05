@@ -1,20 +1,6 @@
-/**
- * @fileoverview Compact reporter
- * @author Nicholas C. Zakas
- */
 
 'use strict';
 
-//------------------------------------------------------------------------------
-// Helper Functions
-//------------------------------------------------------------------------------
-
-/**
- * Returns the severity of warning or error
- * @param {Object} message message object to examine
- * @returns {string} severity level
- * @private
- */
 function getMessageType(message) {
   if (message.fatal || message.severity === 2) {
     return 'Error';
@@ -22,17 +8,12 @@ function getMessageType(message) {
   return 'Warning';
 }
 
-
-//------------------------------------------------------------------------------
-// Public Interface
-//------------------------------------------------------------------------------
-
 module.exports = (results) => {
-  let output = '',
-    total = 0;
+  let output = '';
+  let total = 0;
 
   results.forEach((result) => {
-    const messages = result.messages;
+    const { messages } = result;
 
     total += messages.length;
 

@@ -5,7 +5,7 @@
 
 'use strict';
 
-const xmlEscape = require('../util/xml-escape');
+const xmlEscape = require('../helpers/xml-escape');
 
 //------------------------------------------------------------------------------
 // Helper Functions
@@ -28,14 +28,14 @@ function getMessageType(message) {
 // Public Interface
 //------------------------------------------------------------------------------
 
-module.exports = function (results) {
+module.exports = (results) => {
   let output = '';
 
   output += '<?xml version="1.0" encoding="utf-8"?>\n';
   output += '<testsuites>\n';
 
   results.forEach((result) => {
-    const messages = result.messages;
+    const { messages } = result;
 
     if (messages.length > 0) {
       output += `<testsuite package="org.eslint" time="0" tests="${messages.length}" errors="${messages.length}" name="${result.filePath}">\n`;

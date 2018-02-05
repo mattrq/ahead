@@ -1,6 +1,6 @@
 {
   "extends": ["airbnb-base", "plugin:security/recommended"],
-  "plugins": ["jest", "security"],
+  "plugins": ["security"],
   "parserOptions": {
     "ecmaVersion": 6,
     "sourceType": "script",
@@ -11,8 +11,7 @@
   },
   "env": {
     "browser": true,
-    "node": true,
-    "jest/globals": true
+    "node": true
   },
   "rules": {
     "import/no-extraneous-dependencies": "off"
