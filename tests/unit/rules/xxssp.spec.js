@@ -1,12 +1,12 @@
 'use strict';
 
-const csp = require('./xfo');
-const constants = require('../constants');
+const csp = require('../../../src/rules/xxssp');
+const constants = require('../../../src/constants');
 
-describe('xfo rule', () => {
+describe('xxssp rule', () => {
   describe('check setup', () => {
     expect(csp.appliesTo).toEqual(constants.HTTP_HTTPS);
-    expect(csp.ruleId).toEqual('xfo');
+    expect(csp.ruleId).toEqual('xxssp');
   });
 
   describe('#fail', () => {
@@ -27,8 +27,8 @@ describe('xfo rule', () => {
   });
 
   describe('#pass', () => {
-    it('contains x-frame-options', (done) => {
-      csp.handle({ 'x-frame-options': true })
+    it('contains x-xss-protection', (done) => {
+      csp.handle({ 'x-xss-protection': true })
         .then((result) => {
           expect(result).toEqual(true);
           done();

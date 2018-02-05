@@ -10,4 +10,5 @@ module.exports = {
     const header = 'x-frame-options';
     return Promise.resolve(header in receivedHeaders);
   },
+  message: 'X-Frame-Options-Options header is missing',
 };

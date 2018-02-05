@@ -1,7 +1,7 @@
 'use strict';
 
-const csp = require('./csp');
-const constants = require('../constants');
+const csp = require('../../../src/rules/csp');
+const constants = require('../../../src/constants');
 
 describe('csp rule', () => {
   describe('check setup', () => {

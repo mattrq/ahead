@@ -1,7 +1,7 @@
 'use strict';
 
-const csp = require('./no-powered-by');
-const constants = require('../constants');
+const csp = require('../../../src/rules/no-powered-by');
+const constants = require('../../../src/constants');
 
 describe('no-powered-by rule', () => {
   describe('check setup', () => {

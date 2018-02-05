@@ -1,6 +1,6 @@
 'use strict';
 
-const grades = require('./grades');
+const grades = require('../../../src/config/grades');
 
 describe('grade', () => {
   it('check setup', () => {

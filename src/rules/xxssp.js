@@ -10,4 +10,5 @@ module.exports = {
     const header = 'x-xss-protection';
     return Promise.resolve(header in receivedHeaders);
   },
+  message: 'X-XSS-Protection header is missing',
 };

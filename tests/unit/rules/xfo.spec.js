@@ -1,12 +1,12 @@
 'use strict';
 
-const csp = require('./pkp');
-const constants = require('../constants');
+const csp = require('../../../src/rules/xfo');
+const constants = require('../../../src/constants');
 
-describe('pkp rule', () => {
+describe('xfo rule', () => {
   describe('check setup', () => {
-    expect(csp.appliesTo).toEqual(constants.HTTPS_ONLY);
-    expect(csp.ruleId).toEqual('pkp');
+    expect(csp.appliesTo).toEqual(constants.HTTP_HTTPS);
+    expect(csp.ruleId).toEqual('xfo');
   });
 
   describe('#fail', () => {
@@ -27,8 +27,8 @@ describe('pkp rule', () => {
   });
 
   describe('#pass', () => {
-    it('contains public-key-pins', (done) => {
-      csp.handle({ 'public-key-pins': true })
+    it('contains x-frame-options', (done) => {
+      csp.handle({ 'x-frame-options': true })
         .then((result) => {
           expect(result).toEqual(true);
           done();

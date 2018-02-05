@@ -1,8 +1,8 @@
 'use strict';
 
-const strict = require('./strict');
-const rules = require('../rules');
-const constants = require('../constants');
+const strict = require('../../../src/config/strict');
+const rules = require('../../../src/rules/index');
+const constants = require('../../../src/constants');
 
 describe('strict config', () => {
   const ruleNames = rules.map(rule => rule.ruleId);

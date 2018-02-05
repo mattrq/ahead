@@ -1,10 +1,10 @@
 'use strict';
 
 const commander = require('commander');
-const main = require('./main');
-const processor = require('../processor');
+const main = require('../../../src/command/main');
+const processor = require('../../../src/processor');
 
-jest.mock('../processor');
+jest.mock('../../../src/processor');
 
 processor.mockImplementation(cfg =>
   (cfg.url.href === 'http://error.example.com/' ? Promise.reject(new Error('test')) : Promise.resolve()));

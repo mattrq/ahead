@@ -40,7 +40,6 @@ module.exports = (config) => {
             ...rule,
             result,
             level: config.rules[rule.ruleId],
-            message: 'test',
           };
         }))))
     .then((data) => {

@@ -1,9 +1,10 @@
 # AHead
 
 [![Greenkeeper badge](https://badges.greenkeeper.io/mrosenquist/ahead.svg)](https://greenkeeper.io/)
+[![Build Status](https://travis-ci.org/mrosenquist/ahead.svg?branch=master)](https://travis-ci.org/mrosenquist/ahead)
 [![Known Vulnerabilities](https://snyk.io/test/github/mrosenquist/ahead/badge.svg?targetFile=package.json)](https://snyk.io/test/github/mrosenquist/ahead?targetFile=package.json)
 [![Build Status](https://travis-ci.org/mrosenquist/ahead.svg?branch=master)](https://travis-ci.org/mrosenquist/ahead)
-[![Quality Gate](https://sonarcloud.io/api/badges/gate?key=ahead)](https://sonarcloud.io/dashboard/index/com.github.noraui:noraui)
+[![Quality Gate](https://sonarcloud.io/api/badges/gate?key=ahead)](https://sonarcloud.io/dashboard?id=ahead)
 [![SonarCloud Coverage](https://sonarcloud.io/api/badges/measure?key=ahead&metric=coverage)](https://sonarcloud.io/component_measures/metric/coverage/list?id=ahead)
 [![SonarCloud Bugs](https://sonarcloud.io/api/badges/measure?key=ahead&metric=bugs)](https://sonarcloud.io/component_measures/metric/reliability_rating/list?id=ahead)
 [![SonarCloud Vulnerabilities](https://sonarcloud.io/api/badges/measure?key=ahead&metric=vulnerabilities)](https://sonarcloud.io/component_measures/metric/security_rating/list?id=ahead)
@@ -11,7 +12,6 @@
 [![Technical debt](https://sonarcloud.io/api/badges/measure?key=ahead&metric=sqale_index)](https://sonarcloud.io/component_measures?id=ahead&metric=sqale_index)
 
 Command line tool to scan security header. Aims to be a CLI equivalent to securityheaders.io
-
 
 ### Attribution:
 The ideas and default rules set

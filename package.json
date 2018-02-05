@@ -4,10 +4,10 @@
   "description": "Command line tool to scan security header. Aims to be a CLI equivalent to securityheaders.io",
   "main": "./dist/index.js",
   "scripts": {
-    "test:security": "nsp check --reporter summary",
     "test": "jest --forceExit --coverage",
+    "test:security": "nsp check --reporter summary",
     "test:no-coverage": "jest --forceExit",
-    "lint": "eslint --color --ext .jsx,.js,.spec.jsx src",
+    "lint": "eslint --color --ext .jsx,.js,.spec.js src tests",
     "lint:fix": "eslint --color --ext .jsx,.js,.spec.jsx src --fix",
     "precommit": "lint-staged",
     "prepush": "jest"
@@ -77,7 +77,7 @@
     "cacheDirectory": "./node_modules/.cache/jest",
     "collectCoverageFrom": [
       "src/**/*.{js,jsx}",
-      "!{node_modules,coverage,dist}/**",
+      "!{node_modules,coverage,dist,tests}/**",
       "!src/index.js"
     ],
     "coverageThreshold": {

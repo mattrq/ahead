@@ -10,4 +10,5 @@ module.exports = {
     const header = 'strict-transport-security';
     return Promise.resolve(header in receivedHeaders);
   },
+  message: 'Strict-Transport-Security header is missing',
 };

@@ -1,8 +1,8 @@
 'use strict';
 
-const securityheaders = require('./securityheaders');
-const rules = require('../rules');
-const constants = require('../constants');
+const securityheaders = require('../../../src/config/securityheaders');
+const rules = require('../../../src/rules/index');
+const constants = require('../../../src/constants');
 
 describe('securityheaders config', () => {
   const ruleNames = rules.map(rule => rule.ruleId);

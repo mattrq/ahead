@@ -1,6 +1,6 @@
 'use strict';
 
-const constants = require('./constants');
+const constants = require('../../src/constants');
 
 describe('Constants', () => {
   test('Consts', () => {

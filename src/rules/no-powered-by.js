@@ -9,4 +9,6 @@ module.exports = {
     const header = 'x-powered-by';
     return Promise.resolve(!(header in receivedHeaders));
   },
+  message: 'X-Powered-By present',
+  headerInformation: 'header can expose unnecessary information',
 };

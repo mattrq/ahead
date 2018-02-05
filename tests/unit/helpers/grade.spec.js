@@ -1,6 +1,6 @@
 'use strict';
 
-const { getGrade, hasFailed } = require('./grade');
+const { getGrade, hasFailed } = require('../../../src/helpers/grade');
 
 describe('auth action creators', () => {
   //

@@ -1,12 +1,12 @@
 'use strict';
 
-const csp = require('./sts');
-const constants = require('../constants');
+const csp = require('../../../src/rules/xcto');
+const constants = require('../../../src/constants');
 
-describe('sts rule', () => {
+describe('xcto rule', () => {
   describe('check setup', () => {
-    expect(csp.appliesTo).toEqual(constants.HTTPS_ONLY);
-    expect(csp.ruleId).toEqual('sts');
+    expect(csp.appliesTo).toEqual(constants.HTTP_HTTPS);
+    expect(csp.ruleId).toEqual('xcto');
   });
 
   describe('#fail', () => {
@@ -27,8 +27,8 @@ describe('sts rule', () => {
   });
 
   describe('#pass', () => {
-    it('contains strict-transport-security', (done) => {
-      csp.handle({ 'strict-transport-security': true })
+    it('contains x-content-type-options', (done) => {
+      csp.handle({ 'x-content-type-options': true })
         .then((result) => {
           expect(result).toEqual(true);
           done();
