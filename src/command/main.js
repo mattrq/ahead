@@ -52,7 +52,7 @@ module.exports = (proc) => {
   } catch (e) {
     return error(
       'URL given is not in correct format & must be either HTTP or HTTPS.',
-      `E.g. http://localhost:8080/, https://127.0.0.1 \nGiven: ${e.getMesssage()}`
+      `E.g. http://localhost:8080/, https://127.0.0.1 \nGiven: ${e.messsage}`
     );
   }
 
