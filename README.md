@@ -13,21 +13,31 @@
 
 Command line tool to scan security header. Aims to be a CLI equivalent to securityheaders.io
 
+### Docs
+[Developent](docs/development.md)
+
+
+
 ### Attribution:
-The ideas and default rules set
+**The ideas and default rules set**
  * [securityheaders.io](https://securityheaders.io/)
  * [Scott Helem - Scoring for secuirtyheaders.id](https://scotthelme.co.uk/scoring-transparency-on-securityheaders-io/)
  * [Scott Helem - Articals for secuirtyheaders.id](https://scotthelme.co.uk/tag/securityheaders-io/)
  
-Implementation for a rule bases node cil test tool have been borrowed from eslint:
+**Implementation for a rule bases node cil test tool have been borrowed from eslint**
  * [ESLint](https://eslint.org/)
  * [ESLint - Github](https://github.com/eslint/eslint)
+
+### Todo / Ideas:
+ - [ ] Make config extensible
+ - [ ] CSP check for 'unsafe'
+ - [ ] HSTS check for 'max < 1year'
+ - [ ] HSTS check preload
+ - [ ] HSTS check for subdomain
+ - [ ] Server contains bad value
+ - [ ] Examples of using tool with express and supertest
+ - [ ] Add integration tests
+ - [ ] Update output to match formatter
+ - [ ] Push built package to NPM
+ - [ ] Vary header not set
  
- 
-## Todo / Ideas:
- * Make config extensible
- * CSP check for 'unsafe'
- * HSTS check for 'max < 1year'
- * HSTS check preload
- * HSTS check for subdomain
- * Examples of using tool with express and supertest

@@ -5,8 +5,12 @@ const constants = require('../../../src/constants');
 
 describe('sts rule', () => {
   describe('check setup', () => {
-    expect(csp.appliesTo).toEqual(constants.HTTPS_ONLY);
-    expect(csp.ruleId).toEqual('sts');
+    test('appliesTo HTTP and HTTPS', () => {
+      expect(csp.appliesTo).toEqual(constants.HTTPS_ONLY);
+    });
+    test('ruleId sts', () => {
+      expect(csp.ruleId).toEqual('sts');
+    });
   });
 
   describe('#fail', () => {
