@@ -38,7 +38,7 @@ module.exports = (proc) => {
         config = configs[commander.ruleset];
 
         config.url = new URL(url);
-        if (!/https?/.test(config.url.protocol)) throw new URLPassedError('');
+        if (!/https?/.test(config.url.protocol)) throw new URLPassedError(url);
         config.secure = config.url.protocol === 'https:';
         config.timeout = commander.timeout;
 
@@ -52,7 +52,7 @@ module.exports = (proc) => {
   } catch (e) {
     return error(
       'URL given is not in correct format & must be either HTTP or HTTPS.',
-      'E.g. http://localhost:8080/, https://127.0.0.1' // eslint-disable-line comma-dangle
+      `E.g. http://localhost:8080/, https://127.0.0.1 \nGiven: ${e.getMesssage()}`
     );
   }
 
