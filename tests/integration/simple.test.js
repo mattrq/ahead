@@ -6,8 +6,8 @@ const p = require('../../src/processor');
 
 const baseUrl = 'http://localhost';
 
-p.handleResults = jest.fn((results) => {
-  console.log(results);
+p.handleResults = jest.fn(() => {
+  throw new Error('awd');
 });
 
 describe('Simple config', () => {
