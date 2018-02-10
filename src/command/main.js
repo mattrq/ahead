@@ -4,7 +4,7 @@
 
 const commander = require('commander');
 const chalk = require('chalk');
-const processor = require('../processor');
+const { processor } = require('../processor');
 const configs = require('../config');
 const { URL } = require('url');
 

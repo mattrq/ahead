@@ -73,7 +73,7 @@ const getPoints = results =>
     0
   );
 
-const handResults = (results, config) => {
+const handleResults = (results, config) => {
   const points = getPoints(results);
   const grade = getGrade(points);
   if (results.length) {
@@ -95,7 +95,7 @@ const processor = config => (
   fetch(config.url.href, config)
     .then(res => res.headers.raw())
     .then(headers => handleHeaders(headers, config))
-    .then(results => handResults(results, config))
+    .then(results => handleResults(results, config))
     .catch((error) => {
       if (error.name === 'FetchError') {
         console.error(chalk.red.bold(`\n  Unable to fetch ${config.uri}!`));
@@ -104,4 +104,9 @@ const processor = config => (
     })
 );
 
-module.exports = processor;
+module.exports = {
+  processor,
+  handleResults,
+  handleHeaders,
+  getApplicableRules,
+};

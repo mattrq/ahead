@@ -2,12 +2,12 @@
 
 const commander = require('commander');
 const main = require('../../../src/command/main');
-const processor = require('../../../src/processor');
+const { processor } = require('../../../src/processor');
 
-jest.mock('../../../src/processor');
-
-processor.mockImplementation(cfg =>
-  (cfg.url.href === 'http://error.example.com/' ? Promise.reject(new Error('test')) : Promise.resolve()));
+jest.mock('../../../src/processor', () => ({
+  processor: jest.fn(cfg =>
+    (cfg.url.href === 'http://error.example.com/' ? Promise.reject(new Error('test')) : Promise.resolve())),
+}));
 
 jest.mock('commander', () => {
   let callback;

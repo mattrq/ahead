@@ -5,9 +5,9 @@
   "main": "./dist/index.js",
   "scripts": {
     "test:security": "nsp check --reporter summary",
-    "test": "jest --forceExit --coverage **/?*.spec.js",
-    "test:unit:no-coverage": "jest --forceExit **/?*.spec.js",
-    "test:integration": "jest --forceExit **/?*.test.js",
+    "test": "jest --forceExit --coverage --roots=tests/unit --roots=src",
+    "test:unit:no-coverage": "jest --forceExit  --roots=tests/unit --roots=src",
+    "test:integration": "jest --forceExit  --roots=tests/integration/ --roots=src --coverage --coverageDirectory=coverage/integration",
     "lint": "eslint --color --ext .jsx,.js,.spec.js src tests",
     "lint:fix": "eslint --color --ext .jsx,.js,.spec.jsx src --fix",
     "precommit": "lint-staged",
@@ -66,9 +66,6 @@
     "globals": {
       "NODE_ENV": "test"
     },
-    "testMatch": [
-      "**/?(*.)(spec).js?(x)"
-    ],
     "testEnvironment": "node",
     "coverageReporters": [
       "html",
@@ -96,7 +93,7 @@
     "modulePaths": [
       "<rootDir>/src/"
     ],
-    "coverageDirectory": "coverage"
+    "coverageDirectory": "coverage/unit"
   },
   "lint-staged": {
     "*.{js,jsx}": "eslint"
