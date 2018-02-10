@@ -109,4 +109,5 @@ module.exports = {
   handleResults,
   handleHeaders,
   getApplicableRules,
+  getPoints,
 };
