@@ -117,7 +117,11 @@ describe('Main', () => {
     test('Try A', (done) => {
       const p = {
         exit: jest.fn(),
-        argv: ['', '', 'http://1.example.com'],
+        argv: [
+          '/usr/local/Cellar/node/9.4.0/bin/node',
+          '/usr/local/bin/ahead',
+          'http://1.example.com',
+        ],
       };
       main(p).then(() => {
         expect(processor).toBeCalled();
@@ -129,7 +133,11 @@ describe('Main', () => {
     test('Try B', (done) => {
       const p = {
         exit: jest.fn(),
-        argv: ['', '', 'http://2.example.com'],
+        argv: [
+          '/usr/local/Cellar/node/9.4.0/bin/node',
+          '/usr/local/bin/ahead',
+          'http://2.example.com',
+        ],
       };
       main(p).then(() => {
         expect(processor).toBeCalled();
