@@ -1,15 +1,8 @@
 'use strict';
 
-const { getGrade, hasFailed } = require('./index');
+const { getGrade, hasFailed } = require('../../../src/helpers/grade');
 
 describe('auth action creators', () => {
-  //
-  // beforeAll(() => {
-  // });
-  // afterEach(() => {
-  //   jest.clearAllMocks();
-  // });
-
   describe('#hasFailed', () => {
     it('80 Points should pass', () => {
       expect(hasFailed(80, 'B')).toEqual(false);
@@ -19,6 +12,9 @@ describe('auth action creators', () => {
     });
     it('59 Points should fail', () => {
       expect(hasFailed(59, 'B')).toEqual(true);
+    });
+    it('Grade of H should fail', () => {
+      expect(hasFailed(59, 'H')).toEqual(true);
     });
   });
 

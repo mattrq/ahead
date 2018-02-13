@@ -1,91 +1,113 @@
-
 'use strict';
 
 /* eslint no-console:off */
 
-/*
- *
- *
- * References:
- * https://scotthelme.co.uk/scoring-transparency-on-securityheaders-io/
- * https://scotthelme.co.uk/tag/securityheaders-io/
- */
-
-const fetch = require('node-fetch');
 const chalk = require('chalk');
-const intersection = require('lodash.intersection');
-const { grades } = require('../config');
+const constants = require('../constants');
+const fetch = require('../helpers/fetch');
+const output = require('../formatter/stylish');
 const rules = require('../rules');
+const { getGrade, hasFailed } = require('../helpers/grade');
 
-const hasFailed = (points, minGrade) => {
-  const matchingGrade = grades.filter(grade => grade.name === minGrade.toUpperCase()).pop();
-  if (matchingGrade) {
-    return points < matchingGrade.points;
+const getApplicableRules = (rulesToApply = {}, secure = false, headers = []) => (
+  rules.filter((rule) => {
+    // Basic checks of the details
+    if (!rule.ruleId || typeof rule.handle !== 'function' || !rule.appliesTo) {
+      return false;
+    }
+
+    // Make sure the rule in in the ruleset to apply and turned on
+    if (
+      !(rule.ruleId in rulesToApply) ||
+      rulesToApply[rule.ruleId] === constants.LEVEL_OFF
+    ) {
+      return false;
+    }
+
+    // Check if the rule applies
+    switch (typeof rule.appliesTo) {
+      case 'function': {
+        return rule.appliesTo(headers);
+      }
+      case 'string': {
+        const allow = [constants.HTTP_HTTPS];
+        allow.push(secure ? constants.HTTPS_ONLY : constants.HTTP_ONLY);
+        return allow.includes(rule.appliesTo);
+      }
+      default: {
+        return false;
+      }
+    }
+  })
+);
+
+const handleHeaders = (headers, config) => {
+  const rulesToRun = getApplicableRules(
+    config.rules,
+    config.secure,
+    headers
+  );
+
+  if (!rulesToRun || rulesToRun.length === 0) {
+    return Promise.reject(new Error('No rules to run'));
   }
-  return true;
+
+  const runRules = rulesToRun
+    .map(rule => rule.handle(headers, config)
+      .then(result => (Object.assign(rule, {
+        result,
+        level: config.rules[rule.ruleId],
+      }))));
+
+  return Promise.all(runRules);
 };
 
-const getGrade = points =>
-  (grades.filter(grade => (points >= grade.points || grade.points === 0)).shift());
-
-const processor = (config) => {
-  const options = {
-    method: 'HEAD',
-    headers: {
-      'User-Agent': 'Ahead - Security review of headers',
-    },
-    timeout: config.timeout * 1000,
-    follow: 0,
-    redirect: 'manual',
-  };
-
-  let points = 0;
-  return fetch(config.uri, options)
-    .then(res => res.headers.raw())
-    .then((headers) => {
-      const receivedHeaders = Object.keys(headers).map(header => header.toLowerCase());
-      Object.keys(rules)
-        .filter(key => (!rules[key].httpsOnly || config.secure === rules[key].httpsOnly))
-        .forEach((key) => {
-          const rule = rules[key];
-
-          rule.headers = rule.headers.map(header => header.toLowerCase());
-          if (intersection(rule.headers, receivedHeaders).length > 0) {
-            points += rule.points;
-          }
-        });
-
-      const grade = getGrade(points);
-      console.log(chalk.keyword(grade.colour).bold(`\n   Site got a grade of ${grade.name}\n`));
-      if (hasFailed(points, config.grade)) {
-        process.exit(1);
+const getPoints = results =>
+  results.reduce(
+    (points, result) => {
+      if (result.result === true && result.points) {
+        return points + result.points;
       }
-    })
+      return points;
+    },
+    0
+  );
+
+const handleResults = (results, config) => {
+  const points = getPoints(results);
+  const grade = getGrade(points);
+  if (results.length) {
+    console.log(output(results));
+  }
+  if (config.requiredGrade) {
+    console.log(chalk.keyword(grade.colour).bold(`\n   Site got a grade of ${grade.name}\n`));
+  }
+
+  if (
+    results.filter(message => message.level === constants.LEVEL_ERROR).length ||
+    (config.requiredGrade && hasFailed(points, config.requiredGrade))
+  ) {
+    process.exit(1);
+  }
+};
+
+const processor = config => (
+  fetch(config.url.href, config)
+    .then(res => res.headers.raw())
+    .then(headers => handleHeaders(headers, config))
+    .then(results => handleResults(results, config))
     .catch((error) => {
       if (error.name === 'FetchError') {
         console.error(chalk.red.bold(`\n  Unable to fetch ${config.uri}!`));
       }
       throw error;
-    });
-};
+    })
+);
 
 module.exports = {
-  getGrade,
-  hasFailed,
   processor,
+  handleResults,
+  handleHeaders,
+  getApplicableRules,
+  getPoints,
 };
-// console.log(grade, rules, `https://${uri}`);
-//
-// Promise.all([
-//   // secure ? fetch(`https://${uri}`, options)
-//   //   .then(res => res.headers.raw())
-//   //   .catch(error => Promise.resolve(error)) : Promise.resolve([]),
-//   fetch(`http://${uri}`, Object.assign(options, { follow: 0 }))
-//     .then(res => res.headers.raw())
-//     .catch(error => Promise.resolve(error)),
-// ])
-//   .then(([httpsHeaders, httpHeaders]) => {
-//     console.log(httpHeaders, httpsHeaders);
-//     processSeacure(httpHeaders, httpsHeaders);
-//     processSeacure(httpHeaders, httpsHeaders);
-//   });

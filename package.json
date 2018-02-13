@@ -4,9 +4,11 @@
   "description": "Command line tool to scan security header. Aims to be a CLI equivalent to securityheaders.io",
   "main": "./dist/index.js",
   "scripts": {
-    "test": "jest --coverage",
-    "test:no-coverage": "jest",
-    "lint": "eslint --color --ext .jsx,.js,.spec.jsx src",
+    "test:security": "nsp check --reporter summary",
+    "test": "jest --forceExit --coverage --roots=tests/unit --roots=src",
+    "test:unit:no-coverage": "jest --forceExit  --roots=tests/unit --roots=src",
+    "test:integration": "jest --forceExit  --roots=tests/integration/ --roots=src --coverage --coverageDirectory=coverage/integration",
+    "lint": "eslint --color --ext .jsx,.js,.spec.js src tests",
     "lint:fix": "eslint --color --ext .jsx,.js,.spec.jsx src --fix",
     "precommit": "lint-staged",
     "prepush": "jest"
@@ -41,13 +43,19 @@
     "node-fetch": "^2.0.0"
   },
   "devDependencies": {
+    "depcheck": "^0.6.8",
     "eslint": "^4.16.0",
     "eslint-config-airbnb-base": "^12.1.0",
     "eslint-plugin-import": "^2.8.0",
     "eslint-plugin-jest": "^21.7.0",
+    "eslint-plugin-security": "^1.4.0",
     "husky": "^0.14.3",
     "jest": "^22.1.4",
-    "lint-staged": "^6.0.1"
+    "lint-staged": "^6.0.1",
+    "nock": "^9.1.6",
+    "nsp": "^3.1.0",
+    "strip-ansi": "^4.0.0",
+    "text-table": "^0.2.0"
   },
   "jest": {
     "verbose": true,
@@ -71,7 +79,8 @@
     "cacheDirectory": "./node_modules/.cache/jest",
     "collectCoverageFrom": [
       "src/**/*.{js,jsx}",
-      "!{node_modules,coverage,dist}/**"
+      "!{node_modules,coverage,dist,tests}/**",
+      "!src/index.js"
     ],
     "coverageThreshold": {
       "global": {
@@ -84,7 +93,7 @@
     "modulePaths": [
       "<rootDir>/src/"
     ],
-    "coverageDirectory": "coverage"
+    "coverageDirectory": "coverage/unit"
   },
   "lint-staged": {
     "*.{js,jsx}": "eslint"

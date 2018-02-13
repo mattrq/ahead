@@ -1,6 +1,6 @@
 {
-  "extends": "airbnb-base",
-  "plugins": ["jest"],
+  "extends": ["airbnb-base", "plugin:security/recommended"],
+  "plugins": ["security"],
   "parserOptions": {
     "ecmaVersion": 6,
     "sourceType": "script",
@@ -11,10 +11,10 @@
   },
   "env": {
     "browser": true,
-    "node": true,
-    "jest/globals": true
+    "node": true
   },
   "rules": {
-    "import/no-extraneous-dependencies": "off"
+    "import/no-extraneous-dependencies": "off",
+    "comma-dangle": ["error", "always-multiline", {"functions": "never"}]
   }
 }

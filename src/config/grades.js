@@ -1,6 +1,6 @@
 'use strict';
 
-const grades = [
+module.exports = [
   { name: 'A+', points: 95, colour: 'green' },
   { name: 'A', points: 75, colour: 'green' },
   { name: 'B', points: 60, colour: 'yellow' },
@@ -9,7 +9,3 @@ const grades = [
   { name: 'E', points: 14, colour: 'red' },
   { name: 'F', points: 0, colour: 'red' },
 ];
-
-module.exports = {
-  grades,
-};
