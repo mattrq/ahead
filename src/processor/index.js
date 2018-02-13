@@ -9,7 +9,7 @@ const output = require('../formatter/stylish');
 const rules = require('../rules');
 const { getGrade, hasFailed } = require('../helpers/grade');
 
-const getApplicableRules = (rulesToApply, secure, headers) => (
+const getApplicableRules = (rulesToApply = {}, secure = false, headers = []) => (
   rules.filter((rule) => {
     // Basic checks of the details
     if (!rule.ruleId || typeof rule.handle !== 'function' || !rule.appliesTo) {
@@ -48,7 +48,7 @@ const handleHeaders = (headers, config) => {
     headers
   );
 
-  if (rulesToRun.length === 0) {
+  if (!rulesToRun || rulesToRun.length === 0) {
     return Promise.reject(new Error('No rules to run'));
   }
 

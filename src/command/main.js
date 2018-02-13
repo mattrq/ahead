@@ -51,8 +51,8 @@ module.exports = (proc) => {
       .parse(proc.argv); // end with parse to parse through the input
   } catch (e) {
     return error(
-      'URL given is not in correct format & must be either HTTP or HTTPS.',
-      `E.g. http://localhost:8080/, https://127.0.0.1 \nGiven: ${e.messsage}`
+      `URL given is not in correct format & must be either HTTP or HTTPS.\nGiven: ${e.messsage}`,
+      'E.g. http://localhost:8080/, https://127.0.0.1'
     );
   }
 
