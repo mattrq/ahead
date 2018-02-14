@@ -82,7 +82,8 @@
     "collectCoverageFrom": [
       "src/**/*.{js,jsx}",
       "!{node_modules,coverage,dist,tests}/**",
-      "!src/index.js"
+      "!src/index.js",
+      "!src/formatter/*"
     ],
     "coverageThreshold": {
       "global": {
