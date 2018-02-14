@@ -76,6 +76,7 @@ const getPoints = results =>
 const handleResults = (results, config) => {
   const points = getPoints(results);
   const grade = getGrade(points);
+
   if (results.length) {
     console.log(output(results));
   }

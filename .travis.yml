@@ -16,7 +16,8 @@ addons:
       - master
 script:
   - yarn lint
-  - yarn test
+  - yarn test:unit
+  - yarn test:integration
   - yarn test:security
   - sonar-scanner
 cache:
