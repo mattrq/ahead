@@ -3,14 +3,36 @@
 const p = require('../../../src/processor');
 let rules = require('../../../src/rules');
 const c = require('../../../src/constants');
+const output = require('../../../src/formatter/stylish');
+const fetch = require('node-fetch');
+const { URL } = require('url');
+
+jest.mock('../../../src/formatter/stylish', () => jest.fn());
+jest.mock('node-fetch', () => jest.fn((url) => {
+  if (url === 'http://localhost/fail') {
+    const err = new Error('Fail');
+    err.name = 'FetchError';
+    return Promise.reject(err);
+  }
+
+  return Promise.resolve({
+    headers: {
+      raw: () => ({
+        'content-security-policy': 'default-src: \'none\';',
+      }),
+    },
+  });
+}));
 
 describe('processor', () => {
   const appliesTo = jest.fn(() => true);
+  const handle = jest.fn(() => Promise.resolve({ result: true }));
+
   beforeAll(() => {
     rules = rules.map((rule) => {
       switch (rule.ruleId) {
-        case 'cps': {
-          return Object.assign(rule, { handle: jest.fn(() => Promise.resolve({})) });
+        case 'csp': {
+          return Object.assign(rule, { handle });
         }
         case 'sts': {
           return Object.assign(rule, { ruleId: null });
@@ -26,6 +48,10 @@ describe('processor', () => {
         }
       }
     });
+  });
+
+  afterEach(() => {
+    jest.clearAllMocks();
   });
 
   describe('#getPoints', () => {
@@ -81,19 +107,95 @@ describe('processor', () => {
   });
 
   describe('#handleHeaders', () => {
-    test('no rules returns no rules', () => {
-      expect(p.handleHeaders([], { rules: {} })).rejects.toThrow();
+    describe('fail', () => {
+      test('no rules returns no rules', () => {
+        expect(p.handleHeaders([], { rules: {} })).rejects.toThrow();
+      });
+
+      test('no rules returns no rules', () => {
+        expect(p.handleHeaders([], {})).rejects.toThrow();
+      });
     });
 
-    test('no rules returns no rules', () => {
-      expect(p.handleHeaders([], {})).rejects.toThrow();
+    describe('pass', () => {
+      test('no rules returns no rules', (done) => {
+        p.handleHeaders({ 'content-type': 'text/plain' }, { rules: { csp: c.LEVEL_WARN } })
+          .then(() => {
+            expect(handle).toBeCalled();
+            done();
+          });
+      });
     });
   });
 
-  // describe('#handleResults', () => {s
-  // describe('#handleHeaders', () => {
-  //   test('points should be 0 with empty array', () => {
-  //     expect(p.handleHeaders([])).toEqual(0);
-  //   });
-  // });
+  describe('#handleResults', () => {
+    describe('fail', () => {
+      beforeAll(() => {
+        process.exit = jest.fn();
+        p.getPoints = jest.fn(() => 1);
+      });
+
+      test('config with require grade', () => {
+        p.handleResults([], { requiredGrade: 'A' });
+        expect(process.exit).toHaveBeenCalledWith(1);
+      });
+
+      test('results with errors', () => {
+        p.handleResults([{
+          level: c.LEVEL_ERROR,
+        }], { });
+        expect(output).toBeCalled();
+        expect(process.exit).toHaveBeenCalledWith(1);
+      });
+    });
+
+    describe('pass', () => {
+      beforeAll(() => {
+        process.exit = jest.fn();
+      });
+
+      test('no fail', () => {
+        p.handleResults([{
+          level: c.LEVEL_WARN,
+          result: true,
+          points: 1000,
+        }], { requiredGrade: 'A' });
+        expect(process.exit).not.toBeCalled();
+      });
+
+      test('no fail', () => {
+        p.handleResults([{
+          level: c.LEVEL_WARN,
+          result: true,
+        }], { });
+        expect(output).toBeCalled();
+        expect(process.exit).not.toBeCalled();
+      });
+    });
+  });
+  describe('#processor', () => {
+    describe('errors', () => {
+      test('bad endpoint', () => {
+        expect(p.processor({ url: new URL('http://localhost/fail') })).rejects.toThrowError();
+        expect(fetch).toBeCalled();
+      });
+
+      test('no rules', () => {
+        expect(p.processor({ url: new URL('http://localhost/') })).rejects.toThrowError();
+        expect(fetch).toBeCalled();
+      });
+    });
+
+    describe('runs', () => {
+      test('no rules', () => {
+        expect(p.processor({
+          url: new URL('http://localhost/'),
+          rules: {
+            csp: c.LEVEL_WARN,
+          },
+        })).rejects.toThrowError();
+        expect(fetch).toBeCalled();
+      });
+    });
+  });
 });
