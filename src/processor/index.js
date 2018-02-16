@@ -99,7 +99,7 @@ const processor = config => (
     .then(results => handleResults(results, config))
     .catch((error) => {
       if (error.name === 'FetchError') {
-        console.error(chalk.red.bold(`\n  Unable to fetch ${config.uri}!`));
+        console.error(chalk.red.bold(`\n  Unable to fetch ${config.url.href}!`));
       }
       throw error;
     })

@@ -15,6 +15,14 @@ class URLPassedError extends Error {
   }
 }
 
+
+class ConfigError extends Error {
+  constructor(message) {
+    super(message);
+    this.name = 'ConfigError';
+  }
+}
+
 module.exports = (proc) => {
   let config;
   const error = (msg, secondary = '') => {
@@ -35,24 +43,31 @@ module.exports = (proc) => {
       .option('-t --timeout <Timeout>', 'Timeout in seconds', parseInt, 10)
       .option('-s --ruleset <Ruleset>', 'Rules set', 'securityheaders')
       .action((url) => {
-        config = configs[commander.ruleset];
+        if (!configs[commander.ruleset]) {
+          throw new ConfigError(`Unknown ruleset: ${commander.ruleset}\n\n  Expects one of: ${Object.keys(configs).join(', ')}`, 'Unknown config');
+        }
 
+        config = configs[commander.ruleset];
         config.url = new URL(url);
+
         if (!/https?/.test(config.url.protocol)) throw new URLPassedError(url);
+
         config.secure = config.url.protocol === 'https:';
         config.timeout = commander.timeout;
+        config.ruleset = commander.ruleset;
 
         if (commander.grade) {
           config.requiredGrade = commander.grade.toUpperCase();
         }
-
-        config.ruleset = commander.ruleset;
       })
       .parse(proc.argv); // end with parse to parse through the input
   } catch (e) {
+    if (e.name === 'ConfigError') {
+      return error(e.message);
+    }
     return error(
       `URL given is not in correct format & must be either HTTP or HTTPS.\nGiven: ${e.messsage}`,
-      'E.g. http://localhost:8080/, https://127.0.0.1'
+      'E.g. http://localhost:8080/, https://127.0.0.1/some/path'
     );
   }
 
