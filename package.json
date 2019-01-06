@@ -39,7 +39,7 @@
   ],
   "homepage": "https://github.com/ANDigital/security-headers#readme",
   "dependencies": {
-    "chalk": "^2.3.0",
+    "chalk": "^2.4.2",
     "commander": "^2.13.0",
     "lodash.intersection": "^4.4.0",
     "node-fetch": "^2.0.0"
