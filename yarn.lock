@@ -2450,9 +2450,10 @@ nock@^9.1.6:
     qs "^6.5.1"
     semver "^5.3.0"
 
-node-fetch@^2.0.0:
-  version "2.0.0"
-  resolved "https://registry.yarnpkg.com/node-fetch/-/node-fetch-2.0.0.tgz#982bba43ecd4f2922a29cc186a6bbb0bb73fcba6"
+node-fetch@^2.4.0:
+  version "2.4.0"
+  resolved "https://registry.yarnpkg.com/node-fetch/-/node-fetch-2.4.0.tgz#125ae2b0c2a75cb3b2ed141bf73e106cfe1f0ca8"
+  integrity sha512-1mt8bw5JQWWTcwUM1FGjFJLFo5lB/jz6zbm+qwdEh2iqYobKS4aHWgz1d+mvho5cqCaShFDF+hnpgraIi/5tqA==
 
 node-int64@^0.4.0:
   version "0.4.0"
