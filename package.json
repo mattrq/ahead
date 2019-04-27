@@ -42,7 +42,7 @@
     "chalk": "^2.3.0",
     "commander": "^2.13.0",
     "lodash.intersection": "^4.4.0",
-    "node-fetch": "^2.0.0"
+    "node-fetch": "^2.4.1"
   },
   "devDependencies": {
     "depcheck": "^0.6.8",
