@@ -40,7 +40,7 @@
   "homepage": "https://github.com/ANDigital/security-headers#readme",
   "dependencies": {
     "chalk": "^2.3.0",
-    "commander": "^2.13.0",
+    "commander": "^4.0.1",
     "lodash.intersection": "^4.4.0",
     "node-fetch": "^2.0.0"
   },
